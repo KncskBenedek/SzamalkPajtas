@@ -9,6 +9,10 @@ public partial class MindenegyebF
 
     public string Nev { get; set; } = null!;
 
+    public string? Email { get; set; }
+
+    public string Jelszo { get; set; } = null!;
+
     public long Kod { get; set; }
 
     public string Szoveg { get; set; } = null!;

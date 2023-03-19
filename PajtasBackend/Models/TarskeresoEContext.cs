@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using PajtasBackend.Models;
 
 namespace PajtasBackend.Models;
 
@@ -40,6 +41,8 @@ public partial class TarskeresoEContext : DbContext
     public virtual DbSet<SajMindenE> SajMindenEs { get; set; }
 
     public virtual DbSet<Sajat> Sajats { get; set; }
+    public virtual DbSet<Kere> Keres { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -108,9 +111,9 @@ public partial class TarskeresoEContext : DbContext
 
             entity.ToTable("Felhasznalo");
 
-            entity.Property(e => e.FhAzon)
-                .ValueGeneratedNever()
-                .HasColumnName("fh_azon");
+            entity.HasIndex(e => e.Nev, "UQ__Felhaszn__DF900F678D1700D2").IsUnique();
+
+            entity.Property(e => e.FhAzon).HasColumnName("fh_azon");
             entity.Property(e => e.Email)
                 .HasMaxLength(70)
                 .IsUnicode(false)
@@ -122,7 +125,6 @@ public partial class TarskeresoEContext : DbContext
             entity.Property(e => e.Nev)
                 .HasMaxLength(40)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("nev");
 
             entity.HasMany(d => d.Halmazertekeks).WithMany(p => p.Felhaszns)
@@ -174,6 +176,10 @@ public partial class TarskeresoEContext : DbContext
                 .HasNoKey()
                 .ToView("ker_mindenE");
 
+            entity.Property(e => e.Email)
+                .HasMaxLength(70)
+                .IsUnicode(false)
+                .HasColumnName("email");
             entity.Property(e => e.Ertek)
                 .HasMaxLength(10)
                 .IsUnicode(false)
@@ -185,10 +191,13 @@ public partial class TarskeresoEContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("jelentés");
+            entity.Property(e => e.Jelszo)
+                .HasMaxLength(32)
+                .IsUnicode(false)
+                .HasColumnName("jelszo");
             entity.Property(e => e.Nev)
                 .HasMaxLength(40)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("nev");
             entity.Property(e => e.Sorsz).HasColumnName("sorsz");
             entity.Property(e => e.Tulajd).HasColumnName("tulajd");
@@ -232,12 +241,19 @@ public partial class TarskeresoEContext : DbContext
                 .HasNoKey()
                 .ToView("mindenegyebF");
 
+            entity.Property(e => e.Email)
+                .HasMaxLength(70)
+                .IsUnicode(false)
+                .HasColumnName("email");
             entity.Property(e => e.FhAzon).HasColumnName("fh_azon");
+            entity.Property(e => e.Jelszo)
+                .HasMaxLength(32)
+                .IsUnicode(false)
+                .HasColumnName("jelszo");
             entity.Property(e => e.Kod).HasColumnName("kod");
             entity.Property(e => e.Nev)
                 .HasMaxLength(40)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("nev");
             entity.Property(e => e.Pont).HasColumnName("pont");
             entity.Property(e => e.SajatValasz).HasColumnName("sajat_valasz");
@@ -264,6 +280,10 @@ public partial class TarskeresoEContext : DbContext
                 .HasNoKey()
                 .ToView("saj_mindenE");
 
+            entity.Property(e => e.Email)
+                .HasMaxLength(70)
+                .IsUnicode(false)
+                .HasColumnName("email");
             entity.Property(e => e.Ertek)
                 .HasMaxLength(10)
                 .IsUnicode(false)
@@ -275,10 +295,13 @@ public partial class TarskeresoEContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength()
                 .HasColumnName("jelentés");
+            entity.Property(e => e.Jelszo)
+                .HasMaxLength(32)
+                .IsUnicode(false)
+                .HasColumnName("jelszo");
             entity.Property(e => e.Nev)
                 .HasMaxLength(40)
                 .IsUnicode(false)
-                .IsFixedLength()
                 .HasColumnName("nev");
             entity.Property(e => e.Sorsz).HasColumnName("sorsz");
             entity.Property(e => e.Tulajd).HasColumnName("tulajd");
@@ -304,6 +327,28 @@ public partial class TarskeresoEContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_sajat_halmazertekek");
         });
+
+        modelBuilder.Entity<Kere>(entity =>
+        {
+            entity.HasKey(e => new { e.Felhaszn, e.Tulajd, e.Sorsz });
+
+            entity.ToTable("keres");
+
+            entity.Property(e => e.Felhaszn).HasColumnName("felhaszn");
+            entity.Property(e => e.Tulajd).HasColumnName("tulajd");
+            entity.Property(e => e.Sorsz).HasColumnName("sorsz");
+
+            entity.HasOne(d => d.Halmazertekek).WithMany(p => p.Keres)
+                .HasForeignKey(d => new { d.Tulajd, d.Sorsz })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_keres_halmazertekek");
+
+            entity.HasOne(d => d.FelhasznNavigation).WithMany(p => p.Keres)
+                .HasForeignKey(d => d.Felhaszn)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_keres_Felhasznalo");
+        });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

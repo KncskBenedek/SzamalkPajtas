@@ -50,7 +50,7 @@ namespace PajtasBackend.Controllers
             try
             {
                 var res = _context.Felhasznalos.Where(u => u.Nev == user.UserName || u.Jelszo == CreateMD5(user.Password)).ToArray();
-                if(res.Length == 1)
+                if (res.Length == 1)
                 {
                     return Ok(CreateToken(res[0]));
                 }
@@ -59,10 +59,10 @@ namespace PajtasBackend.Controllers
                     return StatusCode(401, "INVALID_LOGIN");
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
-                return StatusCode(500, e);
+                return StatusCode(500, "UNKNOWN_ERROR");
             }
         }
 
@@ -107,6 +107,6 @@ namespace PajtasBackend.Controllers
 public class UserDto
 {
     public string UserName { get; set; }
-    public string ?Email { get; set; } 
+    public string? Email { get; set; }
     public string Password { get; set; }
 }

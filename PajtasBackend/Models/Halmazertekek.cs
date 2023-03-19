@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PajtasBackend.Models;
+using System;
 using System.Collections.Generic;
 
 namespace PajtasBackend.Models;
@@ -16,4 +17,5 @@ public partial class Halmazertekek
     public virtual BovTulaj TulajdNavigation { get; set; } = null!;
 
     public virtual ICollection<Felhasznalo> Felhaszns { get; } = new List<Felhasznalo>();
+    public virtual ICollection<Kere> Keres { get; } = new List<Kere>();
 }

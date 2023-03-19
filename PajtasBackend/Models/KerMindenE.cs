@@ -9,6 +9,10 @@ public partial class KerMindenE
 
     public string Nev { get; set; } = null!;
 
+    public string? Email { get; set; }
+
+    public string Jelszo { get; set; } = null!;
+
     public short Tulajd { get; set; }
 
     public string? Jelentés { get; set; }

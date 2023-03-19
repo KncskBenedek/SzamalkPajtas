@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using PajtasBackend.Models;
+//using PajtasBackend.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -15,9 +15,9 @@ namespace PajtasBackend
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddDbContext<TarskeresoEContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("TarskeresoEContext"))
-                );
+            //builder.Services.AddDbContext<TarskeresoEContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("TarskeresoEContext"))
+            //    );
 
             builder.Services.AddCors(options =>
             {
@@ -68,7 +68,6 @@ namespace PajtasBackend
             }
 
             app.UseHttpsRedirection();
-
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
