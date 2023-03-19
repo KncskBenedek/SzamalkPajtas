@@ -11,7 +11,6 @@ using System.Security.Claims;
 namespace PajtasBackend.Controllers
 {
     [EnableCors]
-    [Authorize]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -42,6 +41,28 @@ namespace PajtasBackend.Controllers
             {
 
                 return StatusCode(400, "VALAMI_HIBA");
+            }
+        }
+
+        [HttpPost("bej")]
+        public IActionResult Login([FromBody] UserDto user)
+        {
+            try
+            {
+                var res = _context.Felhasznalos.Where(u => u.Nev == user.UserName || u.Jelszo == CreateMD5(user.Password)).ToArray();
+                if(res.Length == 1)
+                {
+                    return Ok(CreateToken(res[0]));
+                }
+                else
+                {
+                    return StatusCode(401, "INVALID_LOGIN");
+                }
+            }
+            catch (Exception e)
+            {
+
+                return StatusCode(500, e);
             }
         }
 
