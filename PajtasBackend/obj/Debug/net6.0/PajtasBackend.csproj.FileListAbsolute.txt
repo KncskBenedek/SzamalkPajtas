@@ -85,3 +85,7 @@ E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\System.Memory.Data.dll
 E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\System.Text.Json.dll
 E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\Scrutor.dll
+E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.dll
+E:\pajtas\SzamalkPajtas\PajtasBackend\bin\Debug\net6.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll

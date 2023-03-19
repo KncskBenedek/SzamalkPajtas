@@ -1,14 +1,19 @@
 USE [Tarskereso_E]
 GO
-/****** Object:  Trigger [aut_sorsz]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Trigger [aut_sorsz]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP TRIGGER [dbo].[aut_sorsz]
 GO
-/****** Object:  Trigger [sorszamozottan]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Trigger [sorszamozottan]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP TRIGGER [dbo].[sorszamozottan]
+GO
+/****** Object:  StoredProcedure [dbo].[reg]    Script Date: 2023. 03. 19. 19:35:36 ******/
+DROP PROCEDURE [dbo].[reg]
 GO
 ALTER TABLE [dbo].[keres] DROP CONSTRAINT [CK_keres_csakketto]
 GO
 ALTER TABLE [dbo].[halmazertekek] DROP CONSTRAINT [CK_halmazertekek]
+GO
+ALTER TABLE [dbo].[Felhasznalo] DROP CONSTRAINT [CK_Felhasznalo_UQ_EMAIL]
 GO
 ALTER TABLE [dbo].[Egyebek] DROP CONSTRAINT [CK_Egyebek]
 GO
@@ -26,78 +31,81 @@ ALTER TABLE [dbo].[Egyebek] DROP CONSTRAINT [FK_Egyebek_Kerdes]
 GO
 ALTER TABLE [dbo].[Egyebek] DROP CONSTRAINT [FK_Egyebek_Felhasznalo]
 GO
-/****** Object:  View [dbo].[mindenegyebF]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[mindenegyebF]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[mindenegyebF]
 GO
-/****** Object:  Table [dbo].[Kerdes]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[Kerdes]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kerdes]') AND type in (N'U'))
 DROP TABLE [dbo].[Kerdes]
 GO
-/****** Object:  View [dbo].[egymasnakmennyire]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[egymasnakmennyire]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[egymasnakmennyire]
 GO
-/****** Object:  View [dbo].[kimennyirejoneki]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[kimennyirejoneki]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[kimennyirejoneki]
 GO
-/****** Object:  UserDefinedFunction [dbo].[ki_mennyire_jo_neki]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  UserDefinedFunction [dbo].[ki_mennyire_jo_neki]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP FUNCTION [dbo].[ki_mennyire_jo_neki]
 GO
-/****** Object:  Table [dbo].[Egyebek]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[Egyebek]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Egyebek]') AND type in (N'U'))
 DROP TABLE [dbo].[Egyebek]
 GO
-/****** Object:  View [dbo].[saj_mindenE]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[saj_mindenE]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[saj_mindenE]
 GO
-/****** Object:  View [dbo].[ker_mindenE]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[ker_mindenE]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[ker_mindenE]
 GO
-/****** Object:  Table [dbo].[halmazertekek]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[halmazertekek]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[halmazertekek]') AND type in (N'U'))
 DROP TABLE [dbo].[halmazertekek]
 GO
-/****** Object:  View [dbo].[kijonekiE]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[kijonekiE]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[kijonekiE]
 GO
-/****** Object:  View [dbo].[osszeillokE]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  View [dbo].[osszeillokE]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP VIEW [dbo].[osszeillokE]
 GO
-/****** Object:  Table [dbo].[Felhasznalo]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[Felhasznalo]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Felhasznalo]') AND type in (N'U'))
 DROP TABLE [dbo].[Felhasznalo]
 GO
-/****** Object:  UserDefinedFunction [dbo].[kijoneki3]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  UserDefinedFunction [dbo].[kijoneki3]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP FUNCTION [dbo].[kijoneki3]
 GO
-/****** Object:  Table [dbo].[sajat]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[sajat]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[sajat]') AND type in (N'U'))
 DROP TABLE [dbo].[sajat]
 GO
-/****** Object:  Table [dbo].[keres]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[keres]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[keres]') AND type in (N'U'))
 DROP TABLE [dbo].[keres]
 GO
-/****** Object:  Table [dbo].[bov_tulaj]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Table [dbo].[bov_tulaj]    Script Date: 2023. 03. 19. 19:35:36 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[bov_tulaj]') AND type in (N'U'))
 DROP TABLE [dbo].[bov_tulaj]
 GO
-/****** Object:  UserDefinedFunction [dbo].[korlatos]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  UserDefinedFunction [dbo].[UQ_email]    Script Date: 2023. 03. 19. 19:35:36 ******/
+DROP FUNCTION [dbo].[UQ_email]
+GO
+/****** Object:  UserDefinedFunction [dbo].[korlatos]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP FUNCTION [dbo].[korlatos]
 GO
-/****** Object:  UserDefinedFunction [dbo].[csakketto]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  UserDefinedFunction [dbo].[csakketto]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP FUNCTION [dbo].[csakketto]
 GO
 USE [master]
 GO
-/****** Object:  Database [Tarskereso_E]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Database [Tarskereso_E]    Script Date: 2023. 03. 19. 19:35:36 ******/
 DROP DATABASE [Tarskereso_E]
 GO
-/****** Object:  Database [Tarskereso_E]    Script Date: 2023. 03. 19. 17:11:47 ******/
+/****** Object:  Database [Tarskereso_E]    Script Date: 2023. 03. 19. 19:35:36 ******/
 CREATE DATABASE [Tarskereso_E]
 GO
 USE [Tarskereso_E]
 GO
-/****** Object:  UserDefinedFunction [dbo].[csakketto]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  UserDefinedFunction [dbo].[csakketto]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -121,7 +129,7 @@ END
 --SELECT dbo.csakketto(10,1)
 
 GO
-/****** Object:  UserDefinedFunction [dbo].[korlatos]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  UserDefinedFunction [dbo].[korlatos]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -151,7 +159,27 @@ BEGIN
 END
 
 GO
-/****** Object:  Table [dbo].[bov_tulaj]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  UserDefinedFunction [dbo].[UQ_email]    Script Date: 2023. 03. 19. 19:35:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create function [dbo].[UQ_email]
+(
+	@email varchar(40)
+)
+returns int
+as
+begin
+	return (
+		select count(*)
+		from Felhasznalo
+		where email is not null
+		and email = @email
+	)
+end
+GO
+/****** Object:  Table [dbo].[bov_tulaj]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -168,7 +196,7 @@ CREATE TABLE [dbo].[bov_tulaj](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[keres]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Table [dbo].[keres]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -185,7 +213,7 @@ CREATE TABLE [dbo].[keres](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[sajat]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Table [dbo].[sajat]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -201,7 +229,7 @@ CREATE TABLE [dbo].[sajat](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  UserDefinedFunction [dbo].[kijoneki3]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  UserDefinedFunction [dbo].[kijoneki3]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,15 +264,15 @@ RETURN
 --select * from dbo.kijoneki3(10)
 
 GO
-/****** Object:  Table [dbo].[Felhasznalo]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Table [dbo].[Felhasznalo]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Felhasznalo](
-	[fh_azon] [int] NOT NULL identity(1,1),
-	[nev] [char](40) NOT NULL,
-	[email] [varchar](70) NULL UNIQUE,
+	[fh_azon] [int] IDENTITY(1,1) NOT NULL,
+	[nev] [varchar](40) NOT NULL UNIQUE,
+	[email] [varchar](70) NULL,
 	[jelszo] [varchar](32) NOT NULL,
  CONSTRAINT [PK_Felhasznalo] PRIMARY KEY CLUSTERED 
 (
@@ -252,7 +280,7 @@ CREATE TABLE [dbo].[Felhasznalo](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[osszeillokE]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[osszeillokE]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -266,7 +294,7 @@ SELECT Felhasznalo.fh_azon as ki,f.felhaszn as kivel
 	where fh_azon IN (select felhaszn from dbo.kijoneki3(f.felhaszn))
 
 GO
-/****** Object:  View [dbo].[kijonekiE]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[kijonekiE]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -279,7 +307,7 @@ SELECT Felhasznalo.fh_azon AS kinek,f.*
 	FROM Felhasznalo OUTER APPLY dbo.kijoneki3(fh_azon) AS f
 
 GO
-/****** Object:  Table [dbo].[halmazertekek]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Table [dbo].[halmazertekek]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -300,7 +328,7 @@ CREATE TABLE [dbo].[halmazertekek](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[ker_mindenE]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[ker_mindenE]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -314,7 +342,7 @@ from keres k, halmazertekek e, bov_tulaj t, Felhasznalo f
 where k.felhaszn=f.fh_azon and k.tulajd=e.tulajd and k.sorsz=e.sorsz and e.tulajd=t.tulajd
 
 GO
-/****** Object:  View [dbo].[saj_mindenE]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[saj_mindenE]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -328,7 +356,7 @@ from sajat s, halmazertekek e, bov_tulaj t, Felhasznalo f
 where s.felhaszn=f.fh_azon and s.tulajd=e.tulajd and s.sorsz=e.sorsz and e.tulajd=t.tulajd
 
 GO
-/****** Object:  Table [dbo].[Egyebek]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Table [dbo].[Egyebek]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -346,7 +374,7 @@ CREATE TABLE [dbo].[Egyebek](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  UserDefinedFunction [dbo].[ki_mennyire_jo_neki]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  UserDefinedFunction [dbo].[ki_mennyire_jo_neki]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -372,7 +400,7 @@ s.sajat_valasz=k.vart_valasz
 group by s.felhaszn
 )
 GO
-/****** Object:  View [dbo].[kimennyirejoneki]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[kimennyirejoneki]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -382,7 +410,7 @@ as
 SELECT Felhasznalo.fh_azon AS kinek,f.* 
 	FROM Felhasznalo OUTER APPLY dbo.ki_mennyire_jo_neki(fh_azon) AS f
 GO
-/****** Object:  View [dbo].[egymasnakmennyire]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[egymasnakmennyire]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -397,7 +425,7 @@ from (select * from kimennyirejoneki) oda INNER JOIN (select * from kimennyirejo
 ON (oda.kinek=vissza.felhaszn and oda.felhaszn=vissza.kinek)
 WHERE oda.kinek<oda.felhaszn
 GO
-/****** Object:  Table [dbo].[Kerdes]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Table [dbo].[Kerdes]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -411,7 +439,7 @@ CREATE TABLE [dbo].[Kerdes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[mindenegyebF]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  View [dbo].[mindenegyebF]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -462,6 +490,10 @@ ALTER TABLE [dbo].[Egyebek]  WITH CHECK ADD  CONSTRAINT [CK_Egyebek] CHECK  (([p
 GO
 ALTER TABLE [dbo].[Egyebek] CHECK CONSTRAINT [CK_Egyebek]
 GO
+ALTER TABLE [dbo].[Felhasznalo]  WITH CHECK ADD  CONSTRAINT [CK_Felhasznalo_UQ_EMAIL] CHECK  (([email] IS NULL OR [dbo].[UQ_email]([email])=(1)))
+GO
+ALTER TABLE [dbo].[Felhasznalo] CHECK CONSTRAINT [CK_Felhasznalo_UQ_EMAIL]
+GO
 ALTER TABLE [dbo].[halmazertekek]  WITH CHECK ADD  CONSTRAINT [CK_halmazertekek] CHECK  (([dbo].[korlatos]([tulajd],[sorsz])=(1)))
 GO
 ALTER TABLE [dbo].[halmazertekek] CHECK CONSTRAINT [CK_halmazertekek]
@@ -470,7 +502,26 @@ ALTER TABLE [dbo].[keres]  WITH CHECK ADD  CONSTRAINT [CK_keres_csakketto] CHECK
 GO
 ALTER TABLE [dbo].[keres] CHECK CONSTRAINT [CK_keres_csakketto]
 GO
-/****** Object:  Trigger [dbo].[sorszamozottan]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  StoredProcedure [dbo].[reg]    Script Date: 2023. 03. 19. 19:35:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE proc [dbo].[reg]
+(
+	@nev varchar(40), @email varchar(40), @jelszo varchar(32)
+)
+as
+
+	insert into Felhasznalo values (@nev, @email, @jelszo)
+	declare @id int;
+	set @id = IDENT_CURRENT('Felhasznalo');
+
+	select *
+	from Felhasznalo
+	where fh_azon = @id
+GO
+/****** Object:  Trigger [dbo].[sorszamozottan]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -503,7 +554,7 @@ END
 GO
 ALTER TABLE [dbo].[bov_tulaj] ENABLE TRIGGER [sorszamozottan]
 GO
-/****** Object:  Trigger [dbo].[aut_sorsz]    Script Date: 2023. 03. 19. 17:11:48 ******/
+/****** Object:  Trigger [dbo].[aut_sorsz]    Script Date: 2023. 03. 19. 19:35:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
