@@ -15,5 +15,4 @@ const endPoints = {
   userKerdesek: "user/kerdes",
   userKerdesekFelviheto: "user/kerdes/felviheto",
 };
-
 export default endPoints;
