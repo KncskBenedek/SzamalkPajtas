@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const api = Axios.create({
-  baseURL: "https://localhost:7027/",
+  baseURL: "https://localhost:7027/api/",
   headers: {
     "X-Requested-With": "XMLHttpRequest",
   },
