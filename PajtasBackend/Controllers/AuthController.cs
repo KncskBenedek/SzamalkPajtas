@@ -11,6 +11,7 @@ using System.Security.Claims;
 namespace PajtasBackend.Controllers
 {
     [EnableCors]
+    [Authorize]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -24,7 +25,7 @@ namespace PajtasBackend.Controllers
             _configuration = configuration;
         }
 
-        [AllowAnonymous]
+
         [HttpPost("reg")]
         public IActionResult Registration([FromBody] UserDto user)
         {

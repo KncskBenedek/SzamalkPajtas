@@ -1,7 +1,8 @@
 import { Button, /*Link,*/ TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import GoBack from "../Utils/GoBack";
-
+import api from "../../axios/axios";
+import endpoint from "../../API/api";
 function Register() {
   const { register, handleSubmit } = useForm();
   return (
@@ -9,7 +10,10 @@ function Register() {
       <form
         className="flex flex-col gap-6 justify-center items-center"
         onSubmit={handleSubmit((data) => {
-          console.log(data);
+          console.log(endpoint.register);
+          api.post(endpoint.register, data).then((response) => {
+            localStorage.setItem("token", response.data);
+          });
         })}
       >
         <GoBack text="Vissza" />
@@ -18,17 +22,18 @@ function Register() {
           required
           label="Felhasználónév"
           inputProps={{ maxLength: 40 }}
-          {...register("nev")}
+          {...register("userName")}
         />
         <TextField
           required
           label="Jelszó"
           type="password"
           inputProps={{ minLength: 8 }}
-          {...register("jelszo")}
+          {...register("password")}
         />
         <TextField
           label="Email Cím"
+          type="email"
           inputProps={{ maxLength: 70 }}
           {...register("email")}
         />

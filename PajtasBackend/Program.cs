@@ -69,7 +69,7 @@ namespace PajtasBackend
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+           
             app.UseCors();
             app.UseAuthentication();
             app.UseAuthorization();
