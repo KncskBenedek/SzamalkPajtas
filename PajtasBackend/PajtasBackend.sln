@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PajtasBackend", "PajtasBackend.csproj", "{4F65944A-B88D-446A-88B0-8EFB7D07C3AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PajtasBackend", "PajtasBackend\PajtasBackend.csproj", "{EB100A09-79D5-4BE3-B4FB-836EE56EE413}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4F65944A-B88D-446A-88B0-8EFB7D07C3AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F65944A-B88D-446A-88B0-8EFB7D07C3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F65944A-B88D-446A-88B0-8EFB7D07C3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F65944A-B88D-446A-88B0-8EFB7D07C3AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB100A09-79D5-4BE3-B4FB-836EE56EE413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB100A09-79D5-4BE3-B4FB-836EE56EE413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB100A09-79D5-4BE3-B4FB-836EE56EE413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB100A09-79D5-4BE3-B4FB-836EE56EE413}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9EB595E0-252A-4A8D-AC1E-B321C972C80F}
+		SolutionGuid = {8F842587-0CFF-4739-8E84-FA110C7BC45E}
 	EndGlobalSection
 EndGlobal
