@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="col-xs-12">
+        <form
+          (ngSubmit)="onSubmit()"
+          class="form-horizontal"
+          [formGroup]="form"
+        >
+          <div class="form-group">
+            <label class="col-md-4 control-label" for="user">*Felhasználó:</label>
+
+            <input
+              type="text"
+              name="user"
+              id="user"
+              class="form-control input-md"
+              formControlName="user"
+            />
+            <label class="col-md-4 control-label" for="password">*Jelszó:</label>
+
+            <input
+              type="password"
+              name="password"
+              id="password"
+              class="form-control input-md"
+              formControlName="password"
+            />
+            <div *ngIf="!isLoggingIn">
+              <label class="col-md-4 control-label" for="email">Email:</label>
+
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="form-control input-md"
+                formControlName="email"
+              />
+            </div>
+          </div>
+          <div class="row">
+
+              <button type="button" class="btn btn-primary" (click)="onChangeMode()" value="">Váltás{{ isLoggingIn ? " Regisztrációra":" Bejelentkezésre"}}</button>
+              <button type="submit" class="btn btn-success">
+                {{ isLoggingIn ? "Bejelentkezés": "Regisztrálás"}}
+            </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

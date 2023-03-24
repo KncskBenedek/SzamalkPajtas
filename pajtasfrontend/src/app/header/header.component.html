@@ -1,29 +1,27 @@
 <mat-toolbar color="primary">
- <!--  <button mat-icon-button (click)="drawer.toggle()">
-    <mat-icon>menu</mat-icon>
-  </button> -->
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon fontIcon="menu"></mat-icon>
+  </button>
+
   <span routerLink="/home" style="cursor: pointer" id="app-title"
     >Pajtás kereső</span
   >
 </mat-toolbar>
-
-<!-- <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav-content>
-   <h1>Szia</h1>
-  </mat-sidenav-content>
-
-  <mat-sidenav
-    #drawer
-    class="sidenav"
-    fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
-  >
-    <mat-toolbar></mat-toolbar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" class="sidenav" #drawer>
     <mat-nav-list>
-      <a mat-list-item routerLink="/login">Autentikáció</a>
+      <a mat-list-item routerLink="/home">Kezdőlap</a>
+      <a mat-list-item routerLink="/auth">Belépés</a>
+      <a mat-list-item routerLink="/sajat">Saját tulajdonságok</a>
+      <a mat-list-item routerLink="/kerdes">Kérdések</a>
+      <a mat-list-item routerLink="/keresett">Keresett tuladjdonságok</a>
+      <a mat-list-item routerLink="/talalat">Találatok</a>
     </mat-nav-list>
   </mat-sidenav>
+  <mat-sidenav-content>
+
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
- -->
